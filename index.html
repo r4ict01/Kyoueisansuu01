@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>算数の振り返りアプリ</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="header">
+        <h1>算数の振り返り</h1>
+      </header>
+
+      <main class="content">
+        <form id="reflection-form">
+          <section class="card">
+            <h2>課題に対するまとめ</h2>
+            <textarea
+              id="summary"
+              name="summary"
+              rows="5"
+              placeholder="今日は、○○の問題を解いて、○○ができるようになりました。"
+            ></textarea>
+          </section>
+
+          <section class="card">
+            <h2>学び方の振り返り</h2>
+
+            <div class="field-group">
+              <p class="prompt">①今日は、どのように学びましたか？</p>
+              <div class="checkbox-group" aria-label="学び方の選択">
+                <label><input type="checkbox" name="studyWays" value="自分で" />自分で</label>
+                <label><input type="checkbox" name="studyWays" value="仲間と" />仲間と</label>
+                <label><input type="checkbox" name="studyWays" value="先生と" />先生と</label>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <p class="prompt">②集中して学習に取り組むことができた</p>
+              <div class="toggle-group" aria-label="集中して学習に取り組むことができた">
+                <label><input type="radio" name="focus" value="〇" />〇</label>
+                <label><input type="radio" name="focus" value="✕" />✕</label>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <p class="prompt">③進み具合に合わせて、学び方を調整できた</p>
+              <div class="toggle-group" aria-label="学び方を調整できた">
+                <label><input type="radio" name="adjust" value="〇" />〇</label>
+                <label><input type="radio" name="adjust" value="✕" />✕</label>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <p class="prompt">④できないまま、わからないまま終わらなかった</p>
+              <div class="toggle-group" aria-label="わからないまま終わらなかった">
+                <label><input type="radio" name="notLeft" value="〇" />〇</label>
+                <label><input type="radio" name="notLeft" value="✕" />✕</label>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <p class="prompt">最後に、「だから次は」</p>
+              <div class="checkbox-group" aria-label="次の学び方の選択">
+                <label><input type="checkbox" name="nextWays" value="自分で" />自分で</label>
+                <label><input type="checkbox" name="nextWays" value="仲間と" />仲間と</label>
+                <label><input type="checkbox" name="nextWays" value="先生と" />先生と</label>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="prompt" for="selfEvaluation">自己評価</label>
+              <select id="selfEvaluation" name="selfEvaluation">
+                <option value="">選択してください</option>
+                <option value="S">S</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="ｃ">ｃ</option>
+              </select>
+            </div>
+          </section>
+
+          <div class="button-row">
+            <button type="button" id="fillSample" class="secondary-btn">例を入れる</button>
+            <button type="button" id="copyText" class="primary-btn">文章をコピー</button>
+          </div>
+        </form>
+
+        <section class="card preview-card">
+          <h2>振り返りの文章</h2>
+          <div id="preview" class="preview"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

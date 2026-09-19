@@ -1,0 +1,174 @@
+:root {
+  --bg: #f5f7ff;
+  --card: #ffffff;
+  --primary: #3a7bd5;
+  --primary-dark: #245bb3;
+  --border: #d7e0f6;
+  --text: #2a2f3a;
+  --muted: #5e6575;
+  --accent: #fff6cc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #edf3ff 0%, #f7f7ff 100%);
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+  color: var(--text);
+}
+
+.app-shell {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+.header {
+  margin-bottom: 18px;
+}
+
+.header h1 {
+  margin: 0;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #6aa7ff, #4f8bf5);
+  color: white;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(79, 139, 245, 0.2);
+}
+
+.content {
+  display: grid;
+  gap: 20px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 22px 20px;
+  box-shadow: 0 8px 18px rgba(74, 94, 145, 0.06);
+}
+
+.card h2 {
+  margin-top: 0;
+  margin-bottom: 18px;
+  font-size: 1.35rem;
+}
+
+.field-group {
+  margin-bottom: 20px;
+}
+
+.prompt {
+  margin: 0 0 12px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.checkbox-group,
+.toggle-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.checkbox-group label,
+.toggle-group label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #f3f7ff;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-weight: 600;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--primary);
+}
+
+textarea,
+select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font: inherit;
+  color: var(--text);
+  background: #fbfcff;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+select {
+  max-width: 220px;
+}
+
+.button-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+button {
+  border: none;
+  border-radius: 999px;
+  padding: 12px 18px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+.primary-btn {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 8px 18px rgba(58, 123, 213, 0.25);
+}
+
+.secondary-btn {
+  background: #edf3ff;
+  color: var(--primary-dark);
+}
+
+.preview-card {
+  background: #fffef8;
+}
+
+.preview {
+  background: var(--accent);
+  border: 1px dashed #e3cf7d;
+  border-radius: 16px;
+  padding: 18px;
+  line-height: 1.8;
+  white-space: pre-line;
+  min-height: 180px;
+}
+
+@media (max-width: 560px) {
+  .card {
+    padding: 18px 14px;
+  }
+
+  .button-row {
+    justify-content: stretch;
+  }
+
+  .button-row button {
+    flex: 1 1 100%;
+  }
+}
