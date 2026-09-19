@@ -111,15 +111,20 @@ function buildEntryObject() {
   };
 }
 
+let currentFilter = 'all';
+
 function renderHistory() {
   const entries = loadEntries().sort((a, b) => new Date(a.date) - new Date(b.date));
+  const filteredEntries = currentFilter === 'all'
+    ? entries
+    : entries.filter((entry) => entry.selfEvaluation === currentFilter);
 
-  if (!entries.length) {
-    historyList.innerHTML = '<li><div class="history-date">まだ記録がありません</div><p class="history-summary">今日の振り返りを保存すると、ここに日付順で表示されます。</p></li>';
+  if (!filteredEntries.length) {
+    historyList.innerHTML = '<li><div class="history-date">まだ記録がありません</div><p class="history-summary">この評価の記録はまだありません。</p></li>';
     return;
   }
 
-  historyList.innerHTML = entries
+  historyList.innerHTML = filteredEntries
     .map((entry) => {
       const summaryText = entry.summary || '（まとめなし）';
       const evaluation = entry.selfEvaluation || '未選択';
@@ -132,6 +137,18 @@ function renderHistory() {
       `;
     })
     .join('');
+}
+
+function bindFilterButtons() {
+  document.querySelectorAll('.filter-btn').forEach((button) => {
+    button.addEventListener('click', () => {
+      currentFilter = button.dataset.filter;
+      document.querySelectorAll('.filter-btn').forEach((item) => {
+        item.classList.toggle('active', item === button);
+      });
+      renderHistory();
+    });
+  });
 }
 
 function drawEvaluationChart() {
@@ -240,4 +257,5 @@ form.addEventListener('submit', (event) => {
 form.addEventListener('input', buildPreviewText);
 
 entryDateInput.value = getTodayString();
+bindFilterButtons();
 refreshApp();

@@ -108,7 +108,17 @@
             </section>
 
             <section class="card history-card">
-              <h2>課題に対するまとめ（日付順）</h2>
+              <div class="history-header">
+                <h2>課題に対するまとめ（日付順）</h2>
+                <div class="history-filter">
+                  <button type="button" class="filter-btn active" data-filter="all">すべて</button>
+                  <button type="button" class="filter-btn" data-filter="S">S</button>
+                  <button type="button" class="filter-btn" data-filter="A">A</button>
+                  <button type="button" class="filter-btn" data-filter="B">B</button>
+                  <button type="button" class="filter-btn" data-filter="C">C</button>
+                  <button type="button" class="filter-btn" data-filter="ｃ">ｃ</button>
+                </div>
+              </div>
               <ul id="historyList" class="history-list"></ul>
             </section>
           </aside>
