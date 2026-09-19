@@ -48,9 +48,39 @@ function formatDateLabel(dateString) {
   return new Intl.DateTimeFormat('ja-JP', { month: 'numeric', day: 'numeric' }).format(date);
 }
 
+function getSummaryText() {
+  return summaryState.values
+    .map((value) => value.trim())
+    .filter((value) => value.length > 0)
+    .join('\n\n') || '（課題に対するまとめを入力してください。）';
+}
+
+function refreshSummaryTextarea() {
+  const textarea = document.getElementById('summary');
+  if (!textarea) return;
+  textarea.value = summaryState.values[summaryState.activeIndex] ?? '';
+}
+
+function renderSummaryTabs() {
+  const tabs = [...document.querySelectorAll('.summary-tab')];
+  tabs.forEach((tab) => {
+    const index = Number(tab.dataset.summaryIndex);
+    tab.classList.toggle('active', index === summaryState.activeIndex);
+  });
+  refreshSummaryTextarea();
+}
+
+function setSummaryActiveIndex(index) {
+  summaryState.activeIndex = index;
+  if (!summaryState.values[index]) {
+    summaryState.values[index] = '';
+  }
+  renderSummaryTabs();
+}
+
 function buildPreviewText() {
   const dateText = entryDateInput.value ? `${entryDateInput.value} ` : '日付未入力';
-  const summary = summaryInput.value.trim() || '（課題に対するまとめを入力してください。）';
+  const summary = getSummaryText();
   const studyWays = getCheckedValues('studyWays');
   const nextWays = getCheckedValues('nextWays');
   const evaluation = selfEvaluationSelect.value || '未選択';
@@ -85,7 +115,9 @@ function buildPreviewText() {
 
 function fillSample() {
   entryDateInput.value = getTodayString();
-  summaryInput.value = '今日は、分数のたし算を学習しました。ひっ算のやり方を確認しながら、問題を一つずつ考えて解くことができました。';
+  summaryState.values = ['今日は、分数のたし算を学習しました。ひっ算のやり方を確認しながら、問題を一つずつ考えて解くことができました。'];
+  summaryState.activeIndex = 0;
+  renderSummaryTabs();
   document.querySelector('input[name="studyWays"][value="自分で"]').checked = true;
   document.querySelector('input[name="studyWays"][value="仲間と"]').checked = true;
   document.querySelector('input[name="focus"][value="〇"]').checked = true;
@@ -100,7 +132,7 @@ function fillSample() {
 function buildEntryObject() {
   return {
     date: entryDateInput.value || getTodayString(),
-    summary: summaryInput.value.trim(),
+    summary: getSummaryText().replace(/\n\n/g, '\n'),
     studyWays: getCheckedValues('studyWays'),
     focus: getRadioValue('focus'),
     adjust: getRadioValue('adjust'),
@@ -114,38 +146,41 @@ function buildEntryObject() {
 function setupSummaryTabs() {
   const summaryTabs = document.querySelectorAll('.summary-tab');
   const addButton = document.querySelector('.summary-add-btn');
-
   if (!summaryTabs.length) return;
-
-  let activeIndex = 0;
-
-  const setActiveTab = (index) => {
-    activeIndex = index;
-    summaryTabs.forEach((tab) => {
-      tab.classList.toggle('active', Number(tab.dataset.summaryIndex) === activeIndex);
-    });
-  };
 
   summaryTabs.forEach((tab) => {
     tab.addEventListener('click', () => {
-      setActiveTab(Number(tab.dataset.summaryIndex));
+      setSummaryActiveIndex(Number(tab.dataset.summaryIndex));
     });
   });
 
+  const textarea = document.getElementById('summary');
+  if (textarea) {
+    textarea.addEventListener('input', (event) => {
+      summaryState.values[summaryState.activeIndex] = event.target.value;
+      buildPreviewText();
+    });
+  }
+
   if (addButton) {
     addButton.addEventListener('click', () => {
-      const nextIndex = summaryTabs.length;
+      const nextIndex = summaryState.values.length;
+      summaryState.values.push('');
+      summaryState.activeIndex = nextIndex;
+
+      const tabContainer = document.querySelector('.summary-tabs');
       const tab = document.createElement('button');
       tab.type = 'button';
       tab.className = 'summary-tab';
       tab.dataset.summaryIndex = String(nextIndex);
       tab.textContent = String(nextIndex + 1);
-      tab.addEventListener('click', () => setActiveTab(Number(tab.dataset.summaryIndex)));
-      document.querySelector('.summary-tabs').appendChild(tab);
-      summaryTabs[summaryTabs.length - 1]?.classList.remove('active');
-      setActiveTab(nextIndex);
+      tab.addEventListener('click', () => setSummaryActiveIndex(Number(tab.dataset.summaryIndex)));
+      tabContainer.appendChild(tab);
+      renderSummaryTabs();
     });
   }
+
+  renderSummaryTabs();
 }
 
 let currentFilter = 'all';
