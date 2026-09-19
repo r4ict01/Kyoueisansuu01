@@ -111,6 +111,43 @@ function buildEntryObject() {
   };
 }
 
+function setupSummaryTabs() {
+  const summaryTabs = document.querySelectorAll('.summary-tab');
+  const addButton = document.querySelector('.summary-add-btn');
+
+  if (!summaryTabs.length) return;
+
+  let activeIndex = 0;
+
+  const setActiveTab = (index) => {
+    activeIndex = index;
+    summaryTabs.forEach((tab) => {
+      tab.classList.toggle('active', Number(tab.dataset.summaryIndex) === activeIndex);
+    });
+  };
+
+  summaryTabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      setActiveTab(Number(tab.dataset.summaryIndex));
+    });
+  });
+
+  if (addButton) {
+    addButton.addEventListener('click', () => {
+      const nextIndex = summaryTabs.length;
+      const tab = document.createElement('button');
+      tab.type = 'button';
+      tab.className = 'summary-tab';
+      tab.dataset.summaryIndex = String(nextIndex);
+      tab.textContent = String(nextIndex + 1);
+      tab.addEventListener('click', () => setActiveTab(Number(tab.dataset.summaryIndex)));
+      document.querySelector('.summary-tabs').appendChild(tab);
+      summaryTabs[summaryTabs.length - 1]?.classList.remove('active');
+      setActiveTab(nextIndex);
+    });
+  }
+}
+
 let currentFilter = 'all';
 
 function renderHistory() {
@@ -257,5 +294,6 @@ form.addEventListener('submit', (event) => {
 form.addEventListener('input', buildPreviewText);
 
 entryDateInput.value = getTodayString();
+setupSummaryTabs();
 bindFilterButtons();
 refreshApp();

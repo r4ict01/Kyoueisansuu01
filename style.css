@@ -134,6 +134,43 @@ body {
   margin-bottom: 2px;
 }
 
+.summary-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.summary-tab {
+  min-width: 30px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #edf4ff;
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+
+.summary-tab.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.summary-extra {
+  margin-top: 8px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.summary-add-btn {
+  border: 1px dashed var(--border);
+  background: #f8faff;
+  color: var(--primary-dark);
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-weight: 700;
+}
+
 .evaluation-bottom {
   margin-top: 10px;
   width: 100%;
