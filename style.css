@@ -147,6 +147,8 @@ body {
   margin: 0 0 8px;
   font-weight: 700;
   line-height: 1.5;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .checkbox-group,
@@ -167,6 +169,9 @@ body {
   padding: 8px 14px;
   font-weight: 600;
   min-height: 42px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 input[type="checkbox"],
@@ -180,6 +185,7 @@ input[type="date"],
 textarea,
 select {
   width: 100%;
+  max-width: 100%;
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 12px 14px;
