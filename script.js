@@ -195,8 +195,7 @@ function drawEvaluationChart() {
   ctx.strokeStyle = '#b7c7ec';
   ctx.stroke();
 
-  const scoreValues = entries.map((entry) => evaluationScore(entry.selfEvaluation));
-  const maxScore = 5;
+  const maxScore = 4;
   const minScore = 1;
 
   if (!entries.length) {
@@ -240,9 +239,9 @@ function drawEvaluationChart() {
     ctx.fillText(point.label, point.x - 12, gridBottom + 20);
   });
 
-  const yLabels = ['5', '4', '3', '2', '1'];
+  const yLabels = ['S', 'A', 'B', 'C'];
   yLabels.forEach((label, index) => {
-    const y = gridTop + (innerHeight / 4) * index;
+    const y = gridTop + (innerHeight / (yLabels.length - 1)) * index;
     ctx.fillStyle = '#59657d';
     ctx.font = '11px sans-serif';
     ctx.fillText(label, 8, y + 4);
