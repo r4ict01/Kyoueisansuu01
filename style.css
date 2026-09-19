@@ -80,6 +80,17 @@ body {
   font-size: 1.2rem;
 }
 
+.card,
+.main-panel,
+.side-panel,
+.meta-row,
+.field-group,
+.checkbox-group,
+.toggle-group,
+.evaluation-bottom {
+  min-width: 0;
+}
+
 .field-group {
   margin-bottom: 18px;
 }
