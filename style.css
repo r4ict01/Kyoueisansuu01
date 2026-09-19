@@ -84,9 +84,34 @@ body {
   margin-bottom: 18px;
 }
 
+.top-meta {
+  padding-top: 14px;
+}
+
+.meta-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.date-item {
+  width: 180px;
+}
+
+.evaluation-item {
+  width: 200px;
+}
+
 .prompt {
   display: block;
-  margin: 0 0 12px;
+  margin: 0 0 8px;
   font-weight: 700;
   line-height: 1.5;
 }
