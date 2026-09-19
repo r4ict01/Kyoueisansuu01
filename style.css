@@ -222,7 +222,7 @@ body {
   gap: 8px;
   background: #f4f8ff;
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: 0;
   padding: 8px 14px;
   font-weight: 600;
   min-height: 42px;
