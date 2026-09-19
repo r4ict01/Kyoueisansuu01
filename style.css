@@ -237,9 +237,30 @@ input[type="radio"] {
   width: 18px;
   height: 18px;
   border-radius: 0;
-  appearance: auto;
-  -webkit-appearance: auto;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 2px solid var(--primary);
+  background: white;
   margin: 0;
+  position: relative;
+}
+
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
+  background: var(--primary);
+}
+
+input[type="checkbox"]:checked::after,
+input[type="radio"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
 }
 
 input[type="date"],
