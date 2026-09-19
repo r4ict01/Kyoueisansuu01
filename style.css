@@ -163,6 +163,7 @@ input[type="date"] {
 textarea {
   resize: vertical;
   min-height: 120px;
+  height: 220px;
 }
 
 select {
