@@ -117,7 +117,8 @@ body {
 }
 
 .summary-card {
-  max-width: 90%;
+  width: 100%;
+  max-width: 100%;
 }
 
 .evaluation-bottom {
@@ -183,11 +184,15 @@ input[type="date"] {
 textarea {
   resize: vertical;
   min-height: 120px;
-  height: 220px;
+  height: 160px;
 }
 
 select {
   max-width: 220px;
+}
+
+.main-panel {
+  min-width: 0;
 }
 
 .button-row {
