@@ -3,7 +3,6 @@ const STORAGE_KEY = 'math-reflection-entries-v1';
 const form = document.getElementById('reflection-form');
 const summaryInput = document.getElementById('summary');
 const selfEvaluationSelect = document.getElementById('selfEvaluation');
-const fillSampleButton = document.getElementById('fillSample');
 const entryDateInput = document.getElementById('entryDate');
 const historyList = document.getElementById('historyList');
 const chartCanvas = document.getElementById('evaluationChart');
@@ -239,7 +238,6 @@ form.addEventListener('submit', (event) => {
 });
 
 form.addEventListener('input', buildPreviewText);
-fillSampleButton.addEventListener('click', fillSample);
 
 entryDateInput.value = getTodayString();
 refreshApp();

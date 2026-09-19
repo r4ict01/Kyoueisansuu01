@@ -136,12 +136,30 @@ body {
 
 .evaluation-bottom {
   margin-top: 10px;
-  width: min(210px, 100%);
+  width: 100%;
 }
 
-.evaluation-bottom select {
+.evaluation-row {
+  margin-bottom: 0;
+}
+
+.evaluation-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   width: 100%;
+}
+
+.evaluation-control select {
+  flex: 1 1 auto;
+  width: auto;
   max-width: 100%;
+}
+
+.save-button {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  padding: 12px 16px;
 }
 
 .prompt {
