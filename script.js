@@ -88,9 +88,9 @@ function fillSample() {
   summaryInput.value = '今日は、分数のたし算を学習しました。ひっ算のやり方を確認しながら、問題を一つずつ考えて解くことができました。';
   document.querySelector('input[name="studyWays"][value="自分で"]').checked = true;
   document.querySelector('input[name="studyWays"][value="仲間と"]').checked = true;
-  document.querySelector('input[name="focus"][value="〇"]').checked = true;
-  document.querySelector('input[name="adjust"][value="〇"]').checked = true;
-  document.querySelector('input[name="notLeft"][value="〇"]').checked = true;
+  document.querySelector('input[name="focus"][value="できた"]').checked = true;
+  document.querySelector('input[name="adjust"][value="できた"]').checked = true;
+  document.querySelector('input[name="notLeft"][value="できた"]').checked = true;
   document.querySelector('input[name="nextWays"][value="自分で"]').checked = true;
   document.querySelector('input[name="nextWays"][value="先生と"]').checked = true;
   selfEvaluationSelect.value = 'A';
