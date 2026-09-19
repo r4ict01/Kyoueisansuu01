@@ -48,39 +48,9 @@ function formatDateLabel(dateString) {
   return new Intl.DateTimeFormat('ja-JP', { month: 'numeric', day: 'numeric' }).format(date);
 }
 
-function getSummaryText() {
-  return summaryState.values
-    .map((value) => value.trim())
-    .filter((value) => value.length > 0)
-    .join('\n\n') || '（課題に対するまとめを入力してください。）';
-}
-
-function refreshSummaryTextarea() {
-  const textarea = document.getElementById('summary');
-  if (!textarea) return;
-  textarea.value = summaryState.values[summaryState.activeIndex] ?? '';
-}
-
-function renderSummaryTabs() {
-  const tabs = [...document.querySelectorAll('.summary-tab')];
-  tabs.forEach((tab) => {
-    const index = Number(tab.dataset.summaryIndex);
-    tab.classList.toggle('active', index === summaryState.activeIndex);
-  });
-  refreshSummaryTextarea();
-}
-
-function setSummaryActiveIndex(index) {
-  summaryState.activeIndex = index;
-  if (!summaryState.values[index]) {
-    summaryState.values[index] = '';
-  }
-  renderSummaryTabs();
-}
-
 function buildPreviewText() {
   const dateText = entryDateInput.value ? `${entryDateInput.value} ` : '日付未入力';
-  const summary = getSummaryText();
+  const summary = summaryInput.value.trim() || '（課題に対するまとめを入力してください。）';
   const studyWays = getCheckedValues('studyWays');
   const nextWays = getCheckedValues('nextWays');
   const evaluation = selfEvaluationSelect.value || '未選択';
@@ -115,9 +85,7 @@ function buildPreviewText() {
 
 function fillSample() {
   entryDateInput.value = getTodayString();
-  summaryState.values = ['今日は、分数のたし算を学習しました。ひっ算のやり方を確認しながら、問題を一つずつ考えて解くことができました。'];
-  summaryState.activeIndex = 0;
-  renderSummaryTabs();
+  summaryInput.value = '今日は、分数のたし算を学習しました。ひっ算のやり方を確認しながら、問題を一つずつ考えて解くことができました。';
   document.querySelector('input[name="studyWays"][value="自分で"]').checked = true;
   document.querySelector('input[name="studyWays"][value="仲間と"]').checked = true;
   document.querySelector('input[name="focus"][value="〇"]').checked = true;
@@ -132,7 +100,7 @@ function fillSample() {
 function buildEntryObject() {
   return {
     date: entryDateInput.value || getTodayString(),
-    summary: getSummaryText().replace(/\n\n/g, '\n'),
+    summary: summaryInput.value.trim(),
     studyWays: getCheckedValues('studyWays'),
     focus: getRadioValue('focus'),
     adjust: getRadioValue('adjust'),
@@ -143,53 +111,13 @@ function buildEntryObject() {
   };
 }
 
-function setupSummaryTabs() {
-  const summaryTabs = document.querySelectorAll('.summary-tab');
-  const addButton = document.querySelector('.summary-add-btn');
-  if (!summaryTabs.length) return;
-
-  summaryTabs.forEach((tab) => {
-    tab.addEventListener('click', () => {
-      setSummaryActiveIndex(Number(tab.dataset.summaryIndex));
-    });
-  });
-
-  const textarea = document.getElementById('summary');
-  if (textarea) {
-    textarea.addEventListener('input', (event) => {
-      summaryState.values[summaryState.activeIndex] = event.target.value;
-      buildPreviewText();
-    });
-  }
-
-  if (addButton) {
-    addButton.addEventListener('click', () => {
-      const nextIndex = summaryState.values.length;
-      summaryState.values.push('');
-      summaryState.activeIndex = nextIndex;
-
-      const tabContainer = document.querySelector('.summary-tabs');
-      const tab = document.createElement('button');
-      tab.type = 'button';
-      tab.className = 'summary-tab';
-      tab.dataset.summaryIndex = String(nextIndex);
-      tab.textContent = String(nextIndex + 1);
-      tab.addEventListener('click', () => setSummaryActiveIndex(Number(tab.dataset.summaryIndex)));
-      tabContainer.appendChild(tab);
-      renderSummaryTabs();
-    });
-  }
-
-  renderSummaryTabs();
-}
-
-let currentFilter = 'all';
+let currentFilter = ['all'];
 
 function renderHistory() {
   const entries = loadEntries().sort((a, b) => new Date(a.date) - new Date(b.date));
-  const filteredEntries = currentFilter === 'all'
+  const filteredEntries = currentFilter.includes('all')
     ? entries
-    : entries.filter((entry) => entry.selfEvaluation === currentFilter);
+    : entries.filter((entry) => currentFilter.includes(entry.selfEvaluation || '未選択'));
 
   if (!filteredEntries.length) {
     historyList.innerHTML = '<li><div class="history-date">まだ記録がありません</div><p class="history-summary">この評価の記録はまだありません。</p></li>';
@@ -214,9 +142,21 @@ function renderHistory() {
 function bindFilterButtons() {
   document.querySelectorAll('.filter-btn').forEach((button) => {
     button.addEventListener('click', () => {
-      currentFilter = button.dataset.filter;
+      const value = button.dataset.filter;
+
+      if (value === 'all') {
+        currentFilter = ['all'];
+      } else if (currentFilter.includes(value)) {
+        currentFilter = currentFilter.filter((item) => item !== value);
+        if (!currentFilter.length) currentFilter = ['all'];
+      } else {
+        currentFilter = currentFilter.filter((item) => item !== 'all');
+        currentFilter.push(value);
+      }
+
       document.querySelectorAll('.filter-btn').forEach((item) => {
-        item.classList.toggle('active', item === button);
+        const isActive = currentFilter.includes(item.dataset.filter);
+        item.classList.toggle('active', isActive);
       });
       renderHistory();
     });
@@ -329,6 +269,5 @@ form.addEventListener('submit', (event) => {
 form.addEventListener('input', buildPreviewText);
 
 entryDateInput.value = getTodayString();
-setupSummaryTabs();
 bindFilterButtons();
 refreshApp();
