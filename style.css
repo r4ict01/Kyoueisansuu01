@@ -70,9 +70,9 @@ body {
 .card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 18px 18px 20px;
-  box-shadow: 0 10px 18px var(--shadow);
+  border-radius: 16px;
+  padding: 12px 12px 14px;
+  box-shadow: 0 8px 14px var(--shadow);
 }
 
 .card h2 {
