@@ -105,8 +105,9 @@ body {
   width: 180px;
 }
 
-.evaluation-item {
-  width: 200px;
+.evaluation-bottom {
+  margin-top: 10px;
+  max-width: 220px;
 }
 
 .prompt {
