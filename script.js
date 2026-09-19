@@ -38,7 +38,7 @@ function saveEntries(entries) {
 }
 
 function evaluationScore(value) {
-  const map = { S: 5, A: 4, B: 3, C: 2, 'ｃ': 1 };
+  const map = { S: 4, A: 3, B: 2, C: 1 };
   return map[value] ?? 0;
 }
 
