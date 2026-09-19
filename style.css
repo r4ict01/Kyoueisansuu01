@@ -92,7 +92,7 @@ body {
 }
 
 .field-group {
-  margin-bottom: 18px;
+  margin-bottom: 8px;
 }
 
 .top-meta {
@@ -201,7 +201,7 @@ input[type="date"] {
 textarea {
   resize: vertical;
   min-height: 120px;
-  height: 160px;
+  height: 120px;
 }
 
 select {
