@@ -1,11 +1,6 @@
 const STORAGE_KEY = 'math-reflection-entries-v1';
-const GOAL_DRAFT_KEY = 'math-reflection-goal-draft-v1';
 
 const form = document.getElementById('reflection-form');
-const goalInput = document.getElementById('goal');
-const saveGoalButton = document.getElementById('saveGoalButton');
-const goalSaveStatus = document.getElementById('goalSaveStatus');
-const recordSaveStatus = document.getElementById('recordSaveStatus');
 const summaryInput = document.getElementById('summary');
 const selfEvaluationSelect = document.getElementById('selfEvaluation');
 const entryDateInput = document.getElementById('entryDate');
@@ -40,14 +35,6 @@ function loadEntries() {
 
 function saveEntries(entries) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
-}
-
-function loadGoalDraft() {
-  try {
-    goalInput.value = localStorage.getItem(GOAL_DRAFT_KEY) || '';
-  } catch (error) {
-    goalSaveStatus.textContent = '保存した内容を読み込めませんでした。';
-  }
 }
 
 function evaluationScore(value) {
@@ -113,7 +100,6 @@ function fillSample() {
 function buildEntryObject() {
   return {
     date: entryDateInput.value || getTodayString(),
-    goal: goalInput.value.trim(),
     summary: summaryInput.value.trim(),
     studyWays: getCheckedValues('studyWays'),
     focus: getRadioValue('focus'),
@@ -134,46 +120,23 @@ function renderHistory() {
     : entries.filter((entry) => currentFilter.includes(entry.selfEvaluation || '未選択'));
 
   if (!filteredEntries.length) {
-    const item = document.createElement('li');
-    const date = document.createElement('div');
-    date.className = 'history-date';
-    date.textContent = 'まだ記録がありません';
-    const summary = document.createElement('p');
-    summary.className = 'history-summary';
-    summary.textContent = 'この評価の記録はまだありません。';
-    item.append(date, summary);
-    historyList.replaceChildren(item);
+    historyList.innerHTML = '<li><div class="history-date">まだ記録がありません</div><p class="history-summary">この評価の記録はまだありません。</p></li>';
     return;
   }
 
-  const items = filteredEntries.map((entry) => {
-    const item = document.createElement('li');
-    const date = document.createElement('div');
-    date.className = 'history-date';
-    date.textContent = entry.date || '日付未設定';
-
-    if (entry.goal) {
-      const goal = document.createElement('p');
-      goal.className = 'history-goal';
-      const label = document.createElement('strong');
-      label.textContent = 'めざすすがた：';
-      goal.append(label, document.createTextNode(entry.goal));
-      item.append(goal);
-    }
-
-    const summary = document.createElement('p');
-    summary.className = 'history-summary';
-    summary.textContent = entry.summary || '（まとめなし）';
-
-    const evaluation = document.createElement('span');
-    evaluation.className = 'history-evaluation';
-    evaluation.textContent = `自己評価：${entry.selfEvaluation || '未選択'}`;
-
-    item.prepend(date);
-    item.append(summary, evaluation);
-    return item;
-  });
-  historyList.replaceChildren(...items);
+  historyList.innerHTML = filteredEntries
+    .map((entry) => {
+      const summaryText = entry.summary || '（まとめなし）';
+      const evaluation = entry.selfEvaluation || '未選択';
+      return `
+        <li>
+          <div class="history-date">${entry.date}</div>
+          <p class="history-summary">${summaryText}</p>
+          <span class="history-evaluation">自己評価：${evaluation}</span>
+        </li>
+      `;
+    })
+    .join('');
 }
 
 function bindFilterButtons() {
@@ -294,31 +257,16 @@ function refreshApp() {
 form.addEventListener('submit', (event) => {
   event.preventDefault();
 
-  try {
-    const entries = loadEntries();
-    const newEntry = buildEntryObject();
-    entries.push(newEntry);
-    entries.sort((a, b) => new Date(a.date) - new Date(b.date));
-    saveEntries(entries);
-    recordSaveStatus.textContent = 'がくしゅうの　きろくをほぞんしました。';
-    refreshApp();
-  } catch (error) {
-    recordSaveStatus.textContent = 'ほぞんできませんでした。もう一度おためしください。';
-  }
+  const entries = loadEntries();
+  const newEntry = buildEntryObject();
+  entries.push(newEntry);
+  entries.sort((a, b) => new Date(a.date) - new Date(b.date));
+  saveEntries(entries);
+  refreshApp();
 });
 
 form.addEventListener('input', buildPreviewText);
 
-saveGoalButton.addEventListener('click', () => {
-  try {
-    localStorage.setItem(GOAL_DRAFT_KEY, goalInput.value);
-    goalSaveStatus.textContent = 'めざすすがたをほぞんしました。';
-  } catch (error) {
-    goalSaveStatus.textContent = 'ほぞんできませんでした。もう一度おためしください。';
-  }
-});
-
 entryDateInput.value = getTodayString();
-loadGoalDraft();
 bindFilterButtons();
 refreshApp();

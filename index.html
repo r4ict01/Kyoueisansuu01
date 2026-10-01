@@ -25,35 +25,15 @@
                 </div>
               </section>
 
-              <section class="card goal-card">
-                <div class="goal-header">
-                  <label class="prompt" for="goal">めざすすがた</label>
-                  <button type="button" id="saveGoalButton" class="secondary-btn">ほぞん</button>
-                </div>
-                <textarea
-                  id="goal"
-                  name="goal"
-                  lang="ja"
-                  inputmode="text"
-                  rows="3"
-                  maxlength="120"
-                  placeholder="今日の学習でできるようになりたいことを書きましょう。"
-                ></textarea>
-                <p id="goalSaveStatus" class="input-hint" aria-live="polite"></p>
-              </section>
-
               <section class="card summary-card">
                 <h2>課題に対するまとめ</h2>
                 <textarea
                   id="summary"
                   name="summary"
-                  lang="ja"
-                  inputmode="text"
                   rows="5"
                   maxlength="120"
                   placeholder="今日は、○○の問題を解いて、○○ができるようになりました。"
                 ></textarea>
-                <p class="input-hint">ひらがな・カタカナ・漢字で入力できます。</p>
               </section>
 
               <section class="card">
@@ -113,10 +93,9 @@
                       <option value="B">B</option>
                       <option value="C">C</option>
                     </select>
-                    <button type="submit" class="primary-btn save-button">がくしゅうの　きろくをほぞん</button>
+                    <button type="submit" class="primary-btn save-button">記録を保存</button>
                   </div>
                 </div>
-                <p id="recordSaveStatus" class="input-hint" aria-live="polite"></p>
               </div>
             </form>
 
